@@ -11,7 +11,6 @@ import pickle
 from win10toast import ToastNotifier
 toaster = ToastNotifier()
 
-firmware_download_link = "https://sho-me.ru/downloads/obnovleniya/firmware/{0}-{1}-{2}/sho-me-combo-N1-signature-firmware-sw.zip"
 domain = 'http://www.silverstonef1.ru/'
 update_page = "http://www.silverstonef1.ru/obnovleniya"
 model='SSHybridSbot' # SilverStone F1 Hybrid S-BOT
