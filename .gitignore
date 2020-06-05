@@ -119,3 +119,4 @@ version.*
 # VSCode
 *.code-workspace
 .vscode/
+*.html
