@@ -2,7 +2,6 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import re
-from tkinter import messagebox
 import sys
 import subprocess
 import os
@@ -40,26 +39,14 @@ def download(link, filename):
             config.close()
             print('saved to ', filename)
             toaster.show_toast('Загрузка файла',"Файл" + filename +" успешно сохранен")
-            #messagebox.showinfo(message="Файл успешно сохранен", icon='info',
-            #                    title='Загрузка файла')
             ret = True
-
-            # if messagebox.askyesno(message='Открыть папку с файлом?', icon='question',
-            #                     title='Загрузка файла') is True:
-            #     fw_path = os.getcwd() + '/' + filename
-            #     print(fw_path)
-            #     subprocess.Popen(r'explorer /select, ' + fw_path)
         except:
             print('Could not write file!')
             toaster.show_toast('Загрузка файла',"Ошибка при сохранении файла "+ filename + " !")
-            # messagebox.showinfo(message="Ошибка при сохранении файла!", icon='error',
-            #                     title='Загрузка файла')
             ret = False
     except urllib.error.HTTPError:
         print('Not found :(')
         toaster.show_toast('Загрузка файла',"Не удалось скачать файл!")
-        # messagebox.showinfo(message="Не удалось скачать файл!", icon='error',
-        #                     title='Ошибка!')
         ret = False
         pass
     return ret
