@@ -60,7 +60,7 @@ try:
     with open('version.dat', 'rb') as f:
         Ver = pickle.loads(f.read())
 
-    print('Last checked version:', Ver.fw)
+    print('Last checked version:', Ver)
 except:
     print('Could not open version file!')
     Ver = Version()
@@ -117,7 +117,7 @@ if div_tag is not None:
             if p_tag.text.find(rd_string, 0, 30) != -1:
                 ver_rd = p_tag.contents[1][4:-4]
                 if ver_rd != Ver.rd:
-                    print('FOUND NEW FW VERSION!', ver_rd)
+                    print('FOUND NEW RD VERSION!', ver_rd)
                     toaster.show_toast('Прошивка радар-детектора',"Обнаружена новая версия прошивки радар-детектора")
                     a_tag = p_tag.find('a')
                     if a_tag is not None:
@@ -128,6 +128,6 @@ if div_tag is not None:
                             Ver.rd = ver_rd
                             ver_save()
                 else:
-                    print('No NEW FW VERSION(((', ver_rd)
+                    print('NO NEW RD VERSION(((', ver_rd)
                 continue
 
