@@ -10,9 +10,9 @@ import pickle
 from win10toast import ToastNotifier
 toaster = ToastNotifier()
 
-domain = 'http://www.silverstonef1.ru/'
-update_page = "http://www.silverstonef1.ru/obnovleniya"
-model='SSHybridSbot' # SilverStone F1 Hybrid S-BOT
+domain = 'http://www.silverstonef1.ru'
+update_page = "https://silverstonef1.ru/podderzhka/?pid=1004&cat=kombo-ustrojstva#support-block"
+model='support-info-1' # SilverStone F1 Hybrid S-BOT
 db_string = 'База камер'
 fw_string = 'Прошивка для комбо-устройства'
 rd_string = 'Прошивка RD'
@@ -76,7 +76,7 @@ version_latest = ''
 soup = BeautifulSoup(update_page.read().decode(), "html.parser")
 div_tag = soup.find('div', id=model)
 if div_tag is not None:
-    for p_tag in div_tag.find_all('p', class_='b-tabs-content-text'):
+    for p_tag in div_tag.find_all('p'):
         if p_tag is not None:
             #print(p_tag.text)
             # db
@@ -115,7 +115,7 @@ if div_tag is not None:
             
             # rd
             if p_tag.text.find(rd_string, 0, 30) != -1:
-                ver_rd = p_tag.contents[1][4:-4]
+                ver_rd = p_tag.contents[1][4:-14]
                 if ver_rd != Ver.rd:
                     print('FOUND NEW RD VERSION!', ver_rd)
                     toaster.show_toast('Прошивка радар-детектора',"Обнаружена новая версия прошивки радар-детектора")

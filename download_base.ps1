@@ -8,7 +8,8 @@ python main.py
 
 foreach ($letter in $alphabet) {
     $folders = $null
-    $folders = Get-ChildItem -Path $letter":\" -Directory -Force
+    $path = $letter+":\"
+    $folders = Get-ChildItem -Path $path -Directory -Force
     Write-Host $letter":\ " $folders
     if ($folders.Length -eq 4)
     {
