@@ -1,2 +1,3 @@
-# Silverstone_updater
- Python3 script for Silverstone F1 products
+# Silverstone updater
+
+Скрипт на Python3 для автоматической проверки и загрузки обновлений прошивки (устройство + радар-детектор) и баз радаров видеорегистраторов и комбо-устройств Silverstone F1
