@@ -1,2 +1,2 @@
 python main.py
-rem pause
+pause

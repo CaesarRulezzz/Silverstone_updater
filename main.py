@@ -7,14 +7,16 @@ import subprocess
 import os
 from dataclasses import dataclass
 import pickle
-from win10toast import ToastNotifier
-toaster = ToastNotifier()
+import requests
+from notifypy import Notify
 
-domain = 'http://www.silverstonef1.ru'
-update_page = "https://silverstonef1.ru/podderzhka/?pid=1004&cat=kombo-ustrojstva#support-block"
+notification = Notify()
+
+domain = 'https://www.silverstonef1.ru'
+update_page = "https://silverstonef1.ru/update/?pid=1004&cat=kombo-ustrojstva#support-block"
 model='support-info-1' # SilverStone F1 Hybrid S-BOT
-db_string = 'База камер'
-fw_string = 'Прошивка для комбо-устройства'
+db_string = 'База камер для'
+fw_string = 'Прошивка для'
 rd_string = 'Прошивка RD'
 
 @dataclass
@@ -28,25 +30,28 @@ Ver = None
 def download(link, filename):
     ret = False
     try:
-        fw = urllib.request.urlopen(link)
         # trying to save fw file
         try:
             print('Downloading data...')
-            data = fw.read()
-            print('Saving to file...')
-            config = open(filename, 'wb')
-            config.write(data)
-            config.close()
-            print('saved to ', filename)
-            toaster.show_toast('Загрузка файла',"Файл" + filename +" успешно сохранен")
+            with open(filename, 'wb') as f:
+                resp = requests.get(link, verify=False)
+                f.write(resp.content)
+        
+            notification.title = "Загрузка файла"
+            notification.message = "Файл" + filename +" успешно сохранен"
+            notification.send()
             ret = True
         except:
             print('Could not write file!')
-            toaster.show_toast('Загрузка файла',"Ошибка при сохранении файла "+ filename + " !")
+            notification.title = "Загрузка файла"
+            notification.message = "Ошибка при сохранении файла "+ filename + " !"
+            notification.send()
             ret = False
     except urllib.error.HTTPError:
         print('Not found :(')
-        toaster.show_toast('Загрузка файла',"Не удалось скачать файл!")
+        notification.title = "Загрузка файла"
+        notification.message = "Не удалось скачать файл!"
+        notification.send()
         ret = False
         pass
     return ret
@@ -78,13 +83,14 @@ div_tag = soup.find('div', id=model)
 if div_tag is not None:
     for p_tag in div_tag.find_all('p'):
         if p_tag is not None:
-            #print(p_tag.text)
             # db
             if p_tag.text.find(db_string) != -1:
                 ver_db = p_tag.contents[1][4:-4]
                 if ver_db != Ver.db:
                     print('FOUND NEW DB VERSION!', ver_db)
-                    toaster.show_toast('База радаров',"Обнаружена новая версия базы радаров")
+                    notification.title = "База радаров"
+                    notification.message = "Обнаружена новая версия базы радаров"
+                    notification.send()
                     a_tag = p_tag.find('a')
                     if a_tag is not None:
                         download_link = domain + a_tag['href']
@@ -100,12 +106,13 @@ if div_tag is not None:
                 ver_fw = p_tag.contents[1][4:-4]
                 if ver_fw != Ver.fw:
                     print('FOUND NEW FW VERSION!', ver_fw)
-                    toaster.show_toast('Прошивка',"Обнаружена новая версия прошивки регистратора")
+                    notification.title = "Прошивка"
+                    notification.message = "Обнаружена новая версия прошивки регистратора"
+                    notification.send()
                     a_tag = p_tag.find('a')
                     if a_tag is not None:
                         download_link = domain + a_tag['href']
                         print('Downloading from ', download_link)
-                        #download(download_link, download_link.split('/')[-1])
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.fw = ver_fw
                             ver_save()
@@ -115,15 +122,16 @@ if div_tag is not None:
             
             # rd
             if p_tag.text.find(rd_string, 0, 30) != -1:
-                ver_rd = p_tag.contents[1][4:-14]
+                ver_rd = p_tag.contents[1][4:-4]
                 if ver_rd != Ver.rd:
                     print('FOUND NEW RD VERSION!', ver_rd)
-                    toaster.show_toast('Прошивка радар-детектора',"Обнаружена новая версия прошивки радар-детектора")
+                    notification.title = "Прошивка радар-детектора"
+                    notification.message = "Обнаружена новая версия прошивки радар-детектора"
+                    notification.send()
                     a_tag = p_tag.find('a')
                     if a_tag is not None:
                         download_link = domain + a_tag['href']
                         print('Downloading from ', download_link)
-                        #download(download_link, download_link.split('/')[-1])
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.rd = ver_rd
                             ver_save()
