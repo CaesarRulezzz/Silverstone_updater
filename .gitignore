@@ -120,3 +120,9 @@ version.*
 *.code-workspace
 .vscode/
 *.html
+
+# Nextcloud Sync Trash files
+*.db
+*.db-shm
+*.db-wal
+*.db*
