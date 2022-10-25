@@ -9,3 +9,4 @@ echo "Removing unnesessary files from SD"
 rm /mnt/REGIST/*.doc -f
 echo "Cleaning downloads"
 rm ./*.zip -f
+echo "All done!"
