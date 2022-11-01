@@ -10,3 +10,4 @@ rm /mnt/REGIST/*.doc -f
 echo "Cleaning downloads"
 rm ./*.zip -f
 echo "All done!"
+read -p "Press any key to resume ..."
