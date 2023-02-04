@@ -126,3 +126,5 @@ version.*
 *.db-shm
 *.db-wal
 *.db*
+
+version.dat
