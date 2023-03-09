@@ -18,6 +18,7 @@ model='support-info-1' # SilverStone F1 Hybrid S-BOT
 db_string = 'База камер для'
 fw_string = 'Прошивка для'
 rd_string = 'Прошивка RD'
+uz_string = '_UZ_'
 
 @dataclass
 class Version:
@@ -87,13 +88,15 @@ if div_tag is not None:
             if p_tag.text.find(db_string) != -1:
                 ver_db = p_tag.contents[1][4:-4]
                 if ver_db != Ver.db:
-                    print('FOUND NEW DB VERSION!', ver_db)
-                    notification.title = "База радаров"
-                    notification.message = "Обнаружена новая версия базы радаров"
-                    notification.send()
                     a_tag = p_tag.find('a')
                     if a_tag is not None:
                         download_link = domain + a_tag['href']
+                        if download_link.find(uz_string) != -1:
+                            continue
+                        print('FOUND NEW DB VERSION!', ver_db)
+                        notification.title = "База радаров"
+                        notification.message = "Обнаружена новая версия базы радаров"
+                        notification.send()
                         print('Downloading from ', download_link)
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.db = ver_db
@@ -105,13 +108,16 @@ if div_tag is not None:
             if p_tag.text.find(fw_string) != -1:
                 ver_fw = p_tag.contents[1][4:-4]
                 if ver_fw != Ver.fw:
-                    print('FOUND NEW FW VERSION!', ver_fw)
-                    notification.title = "Прошивка"
-                    notification.message = "Обнаружена новая версия прошивки регистратора"
-                    notification.send()
+                    
                     a_tag = p_tag.find('a')
                     if a_tag is not None:
                         download_link = domain + a_tag['href']
+                        if download_link.find(uz_string) != -1:
+                            continue
+                        print('FOUND NEW FW VERSION!', ver_fw)
+                        notification.title = "Прошивка"
+                        notification.message = "Обнаружена новая версия прошивки регистратора"
+                        notification.send()
                         print('Downloading from ', download_link)
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.fw = ver_fw
@@ -124,13 +130,16 @@ if div_tag is not None:
             if p_tag.text.find(rd_string, 0, 30) != -1:
                 ver_rd = p_tag.contents[1][4:-4]
                 if ver_rd != Ver.rd:
-                    print('FOUND NEW RD VERSION!', ver_rd)
-                    notification.title = "Прошивка радар-детектора"
-                    notification.message = "Обнаружена новая версия прошивки радар-детектора"
-                    notification.send()
                     a_tag = p_tag.find('a')
                     if a_tag is not None:
                         download_link = domain + a_tag['href']
+                        if download_link.find(uz_string) != -1:
+                            continue
+                        
+                        print('FOUND NEW RD VERSION!', ver_rd)
+                        notification.title = "Прошивка радар-детектора"
+                        notification.message = "Обнаружена новая версия прошивки радар-детектора"
+                        notification.send()
                         print('Downloading from ', download_link)
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.rd = ver_rd
