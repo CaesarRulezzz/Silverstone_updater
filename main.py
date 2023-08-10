@@ -16,7 +16,7 @@ domain = 'https://www.silverstonef1.ru'
 update_page = "https://silverstonef1.ru/update/?pid=1004&cat=kombo-ustrojstva#support-block"
 model='support-info-1' # SilverStone F1 Hybrid S-BOT
 db_string = 'База камер для'
-fw_string = 'Прошивка для'
+fw_string = 'Прошивка SW'
 rd_string = 'Прошивка RD'
 uz_string = '_UZ_'
 
