@@ -39,7 +39,7 @@ def download(link, filename):
                 f.write(resp.content)
         
             notification.title = "Загрузка файла"
-            notification.message = "Файл" + filename +" успешно сохранен"
+            notification.message = "Файл " + filename +" успешно сохранен"
             notification.send()
             ret = True
         except:
