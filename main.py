@@ -12,7 +12,7 @@ from notifypy import Notify
 
 notification = Notify()
 
-domain = 'https://www.silverstonef1.ru'
+domain = 'https://silverstonef1.ru'
 update_page = "https://silverstonef1.ru/update/?pid=1004&cat=kombo-ustrojstva#support-block"
 model='support-info-1' # SilverStone F1 Hybrid S-BOT
 db_string = 'База камер для'
