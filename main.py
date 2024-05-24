@@ -10,7 +10,7 @@ import pickle
 import requests
 from notifypy import Notify
 
-notification = Notify()
+#notification = Notify()
 
 domain = 'https://silverstonef1.ru'
 update_page = "https://silverstonef1.ru/update/?pid=1004&cat=kombo-ustrojstva#support-block"
@@ -38,21 +38,21 @@ def download(link, filename):
                 resp = requests.get(link, verify=False)
                 f.write(resp.content)
         
-            notification.title = "Загрузка файла"
-            notification.message = "Файл " + filename +" успешно сохранен"
-            notification.send()
+            #notification.title = "Загрузка файла"
+            #notification.message = "Файл " + filename +" успешно сохранен"
+            #notification.send()
             ret = True
         except:
             print('Could not write file!')
-            notification.title = "Загрузка файла"
-            notification.message = "Ошибка при сохранении файла "+ filename + " !"
-            notification.send()
+            #notification.title = "Загрузка файла"
+            #notification.message = "Ошибка при сохранении файла "+ filename + " !"
+            #notification.send()
             ret = False
     except urllib.error.HTTPError:
         print('Not found :(')
-        notification.title = "Загрузка файла"
-        notification.message = "Не удалось скачать файл!"
-        notification.send()
+        #notification.title = "Загрузка файла"
+        #notification.message = "Не удалось скачать файл!"
+        #notification.send()
         ret = False
         pass
     return ret
@@ -94,9 +94,9 @@ if div_tag is not None:
                         if download_link.find(uz_string) != -1:
                             continue
                         print('FOUND NEW DB VERSION!', ver_db)
-                        notification.title = "База радаров"
-                        notification.message = "Обнаружена новая версия базы радаров"
-                        notification.send()
+                        #notification.title = "База радаров"
+                        #notification.message = "Обнаружена новая версия базы радаров"
+                        #notification.send()
                         print('Downloading from ', download_link)
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.db = ver_db
@@ -115,9 +115,9 @@ if div_tag is not None:
                         if download_link.find(uz_string) != -1:
                             continue
                         print('FOUND NEW FW VERSION!', ver_fw)
-                        notification.title = "Прошивка"
-                        notification.message = "Обнаружена новая версия прошивки регистратора"
-                        notification.send()
+                        #notification.title = "Прошивка"
+                        #notification.message = "Обнаружена новая версия прошивки регистратора"
+                        #notification.send()
                         print('Downloading from ', download_link)
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.fw = ver_fw
@@ -137,9 +137,9 @@ if div_tag is not None:
                             continue
                         
                         print('FOUND NEW RD VERSION!', ver_rd)
-                        notification.title = "Прошивка радар-детектора"
-                        notification.message = "Обнаружена новая версия прошивки радар-детектора"
-                        notification.send()
+                        #notification.title = "Прошивка радар-детектора"
+                        #notification.message = "Обнаружена новая версия прошивки радар-детектора"
+                        #notification.send()
                         print('Downloading from ', download_link)
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.rd = ver_rd
