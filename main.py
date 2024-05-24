@@ -8,7 +8,7 @@ import os
 from dataclasses import dataclass
 import pickle
 import requests
-from notifypy import Notify
+#from notifypy import Notify
 
 #notification = Notify()
 
