@@ -1,24 +1,21 @@
 #!/usr/bin/python3
 import urllib.request
 from bs4 import BeautifulSoup
-import re
-import sys
-import subprocess
-import os
 from dataclasses import dataclass
 import pickle
 import requests
-#from notifypy import Notify
+from notifypy import Notify
 
-#notification = Notify()
+notification = Notify("", "", "Silverstone_updater")
 
 domain = 'https://silverstonef1.ru'
 update_page = "https://silverstonef1.ru/update/?pid=1004&cat=kombo-ustrojstva#support-block"
-model='support-info-1' # SilverStone F1 Hybrid S-BOT
+model = 'support-info-1'  # SilverStone F1 Hybrid S-BOT
 db_string = 'База камер для'
 fw_string = 'Прошивка SW'
 rd_string = 'Прошивка RD'
 uz_string = '_UZ_'
+
 
 @dataclass
 class Version:
@@ -26,7 +23,9 @@ class Version:
     fw: str = ''
     rd: str = ''
 
+
 Ver = None
+
 
 def download(link, filename):
     ret = False
@@ -37,22 +36,23 @@ def download(link, filename):
             with open(filename, 'wb') as f:
                 resp = requests.get(link, verify=False)
                 f.write(resp.content)
-     
-            # notification.title = "Загрузка файла"
-            # notification.message = "Файл " + filename +" успешно сохранен"
-            # notification.send()
+
+            notification.title = "Загрузка файла"
+            notification.message = "Файл " + filename + " успешно сохранен"
+            notification.send()
             ret = True
         except:
             print('Could not write file!')
-            #notification.title = "Загрузка файла"
-            #notification.message = "Ошибка при сохранении файла "+ filename + " !"
-            #notification.send()
+
+            notification.title = "Загрузка файла"
+            notification.message = "Ошибка при сохранении файла " + filename + " !"
+            notification.send()
             ret = False
     except urllib.error.HTTPError:
         print('Not found :(')
-        #notification.title = "Загрузка файла"
-        #notification.message = "Не удалось скачать файл!"
-        #notification.send()
+        notification.title = "Загрузка файла"
+        notification.message = "Не удалось скачать файл!"
+        notification.send()
         ret = False
         pass
     return ret
@@ -96,38 +96,43 @@ if div_tag is not None:
                         if download_link.find(uz_string) != -1:
                             continue
                         print('FOUND NEW DB VERSION!', ver_db)
-                        #notification.title = "База радаров"
-                        #notification.message = "Обнаружена новая версия базы радаров"
-                        #notification.send()
+                        notification.title = "База радаров"
+                        notification.message = "Обнаружена новая версия базы радаров"
+                        notification.send()
                         print('Downloading from ', download_link)
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.db = ver_db
                             ver_save()
                 else:
                     print('NO NEW DB VERSION(((', ver_db)
+                    notification.title = "База радаров"
+                    notification.message = "Новая версия базы радаров не найдена"
+                    notification.send()
                 continue
             # fw
             if p_tag.text.find(fw_string) != -1:
                 ver_fw = p_tag.contents[1][4:-4]
                 if ver_fw != Ver.fw:
-                    
+
                     a_tag = p_tag.find('a')
                     if a_tag is not None:
                         download_link = domain + a_tag['href']
                         if download_link.find(uz_string) != -1:
                             continue
                         print('FOUND NEW FW VERSION!', ver_fw)
-                        #notification.title = "Прошивка"
-                        #notification.message = "Обнаружена новая версия прошивки регистратора"
-                        #notification.send()
+                        notification.title = "Прошивка"
+                        notification.message = "Обнаружена новая версия прошивки регистратора"
+                        notification.send()
                         print('Downloading from ', download_link)
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.fw = ver_fw
                             ver_save()
                 else:
                     print('NO NEW FW VERSION(((', ver_fw)
+                    notification.title = "Прошивка"
+                    notification.message = "Новая версия прошивки регистратора не найдена"
+                    notification.send()
                 continue
-            
             # rd
             if p_tag.text.find(rd_string, 0, 30) != -1:
                 ver_rd = p_tag.contents[1][4:-4]
@@ -137,16 +142,17 @@ if div_tag is not None:
                         download_link = domain + a_tag['href']
                         if download_link.find(uz_string) != -1:
                             continue
-                        
                         print('FOUND NEW RD VERSION!', ver_rd)
-                        #notification.title = "Прошивка радар-детектора"
-                        #notification.message = "Обнаружена новая версия прошивки радар-детектора"
-                        #notification.send()
+                        notification.title = "Прошивка радар-детектора"
+                        notification.message = "Обнаружена новая версия прошивки радар-детектора"
+                        notification.send()
                         print('Downloading from ', download_link)
                         if download(download_link, download_link.split('/')[-1]):
                             Ver.rd = ver_rd
                             ver_save()
                 else:
                     print('NO NEW RD VERSION(((', ver_rd)
+                    notification.title = "Прошивка радар-детектора"
+                    notification.message = "ОНовая версия прошивки радар-детектора не найдена"
+                    notification.send()
                 continue
-
