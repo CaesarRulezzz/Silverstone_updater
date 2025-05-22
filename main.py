@@ -37,10 +37,10 @@ def download(link, filename):
             with open(filename, 'wb') as f:
                 resp = requests.get(link, verify=False)
                 f.write(resp.content)
-        
-            #notification.title = "Загрузка файла"
-            #notification.message = "Файл " + filename +" успешно сохранен"
-            #notification.send()
+     
+            # notification.title = "Загрузка файла"
+            # notification.message = "Файл " + filename +" успешно сохранен"
+            # notification.send()
             ret = True
         except:
             print('Could not write file!')
@@ -57,9 +57,11 @@ def download(link, filename):
         pass
     return ret
 
+
 def ver_save():
     with open('version.dat', 'wb') as f:
         pickle.dump(Ver, f)
+
 
 # read version from file
 try:
